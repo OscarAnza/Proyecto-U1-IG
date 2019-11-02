@@ -12,15 +12,11 @@
 #  include <GL/freeglut.h>
 #endif
 
-#define ANCHO 600
-#define ALTURA 500
-
 #define NUM_PALOS 4
 #define NUM_VAL 13
 
 using namespace std;
 
-float altura;
 int i = 0;
 int b = 0;
 int palo = 0;
@@ -30,13 +26,17 @@ int valores[NUM_PALOS * NUM_VAL];
 bool paloRepetido = false;
 bool valorRepetido = false;
 int multiContador[] = {0, 0, 0, 0};
-int posicionesTablero[28][3];
-int contadorMazo = NUM_PALOS * NUM_VAL - 1;
-int contador = 0;
-int indice = 0;
-int lim = 7;
-bool inicio = false;
 
+bool seleccionada = false;
+bool mueveP1 = false;
+bool mueveP2 = false;
+bool mueveP3 = false;
+bool mueveP4 = false;
+bool mueveP5 = false;
+bool mueveP6 = false;
+bool mueveP7 = false;
+
+// Globals.
 float refresh = 100.0;
 
 
@@ -48,46 +48,32 @@ class Carta{
 	public:
 		int posX;
 		int posY;
-		int posZ;
 		Carta(){
 			palo = -1;
 			valor = -1;
 			posX = 0;
 			posY = 0;
-			posZ = 0;
-			alReves = true;
+			alReves = false;
 		}
-		Carta(int p, int v, int x, int y, int z){
+		Carta(int p, int v, int x, int y){
 			palo = p;
 			valor = v;
 			posX = x;
 			posY = y;
-			posZ = z;
-			alReves = true;
+			alReves = false;
 		}
 		void dibujarCarta();
 		void voltear();
-		int getValor();
-		int getPalo();
 };
 
 void Carta::dibujarCarta(){
 	glColor3f(0.0, 0.0, 0.0);
-	glBegin(GL_LINE_LOOP);
-	glVertex3f(posX,       posY,        posZ);
-	glVertex3f(posX + 8.5, posY,        posZ);
-	glVertex3f(posX + 8.5, posY + 13.5, posZ);
-	glVertex3f(posX,       posY + 13.5, posZ);
-	glEnd();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
+	glRectf(posX, posY, posX + 8.5, posY + 13.5);
 
 	glColor3f(1.0, 1.0, 1.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glBegin(GL_POLYGON);
-	glVertex3f(posX      , posY + 0.1, posZ);
-	glVertex3f(posX + 8.3, posY + 0.1, posZ);
-	glVertex3f(posX + 8.3, posY + 13.4, posZ);
-	glVertex3f(posX      , posY + 13.4, posZ);
-	glEnd();
+	glRectf(posX + 0.2, posY + 0.2, posX + 8.3, posY + 13.3);
 }
 
 void Carta::voltear(){
@@ -97,23 +83,91 @@ void Carta::voltear(){
 		alReves = true;
 }
 
-int Carta::getValor(){
-	return valor;
-}
-
-int Carta::getPalo(){
-	return palo;
-}
-
 vector<Carta> cartas;
 vector<Carta>::iterator cartasIterator; 
-Carta mazo[NUM_PALOS * NUM_VAL - 28];
 
 void dibujarCartas(){
 	cartasIterator = cartas.begin();
 	while(cartasIterator != cartas.end()){
 		cartasIterator -> dibujarCarta();
 		cartasIterator++;
+	}
+}
+
+vector<Carta> P1;
+vector<Carta>::iterator cartasIterator1; 
+
+void dibujarCartasP1(){
+	cartasIterator1 = P1.begin();
+	while(cartasIterator1 != P1.end()){
+		cartasIterator1 -> dibujarCarta();
+		cartasIterator1++;
+	}
+}
+
+vector<Carta> P2;
+vector<Carta>::iterator cartasIterator2; 
+
+void dibujarCartasP2(){
+	cartasIterator2 = P2.begin();
+	while(cartasIterator2 != P2.end()){
+		cartasIterator2 -> dibujarCarta();
+		cartasIterator2++;
+	}
+}
+
+vector<Carta> P3;
+vector<Carta>::iterator cartasIterator3; 
+
+void dibujarCartasP3(){
+	cartasIterator3 = P3.begin();
+	while(cartasIterator3 != P3.end()){
+		cartasIterator3 -> dibujarCarta();
+		cartasIterator3++;
+	}
+}
+
+vector<Carta> P4;
+vector<Carta>::iterator cartasIterator4; 
+
+void dibujarCartasP4(){
+	cartasIterator4 = P4.begin();
+	while(cartasIterator4 != P4.end()){
+		cartasIterator4 -> dibujarCarta();
+		cartasIterator4++;
+	}
+}
+
+vector<Carta> P5;
+vector<Carta>::iterator cartasIterator5; 
+
+void dibujarCartasP5(){
+	cartasIterator5 = P5.begin();
+	while(cartasIterator5 != P5.end()){
+		cartasIterator5 -> dibujarCarta();
+		cartasIterator5++;
+	}
+}
+
+vector<Carta> P6;
+vector<Carta>::iterator cartasIterator6; 
+
+void dibujarCartasP6(){
+	cartasIterator6 = P6.begin();
+	while(cartasIterator6 != P6.end()){
+		cartasIterator6 -> dibujarCarta();
+		cartasIterator6++;
+	}
+}
+
+vector<Carta> P7;
+vector<Carta>::iterator cartasIterator7; 
+
+void dibujarCartasP7(){
+	cartasIterator7 = P7.begin();
+	while(cartasIterator7 != P7.end()){
+		cartasIterator7 -> dibujarCarta();
+		cartasIterator7++;
 	}
 }
 
@@ -188,27 +242,97 @@ void generarMazo(){
 }
 
 void dibujarTablero(){
-	indice = 0;
-	contador = 0;
-	lim = 7;
+	
+}
 
-	// Dibujar cartas en el tablero
+int posicionesTablero[28][2];
+
+// Drawing routine.
+void drawScene(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.0, 0.0, 1.0);
+	glLoadIdentity();
+
+	// SOLO DE PRUEBA, PERO NO BORRAR
+	cout << endl;
+	int contador = 0;
+	int lim = 7;
+
 	for(int j = 1; j <= 7; j++){
 		for(int k = 1; k <= 7; k++){
-			cout << indice << " Tablero - Palo: " << palos[k - 1] << " Valor: " << valores[k - 1] << endl;
+			cout << "Palo: " << palos[k - 1] << " Valor: " << valores[k - 1] << endl;
 
-			posicionesTablero[indice][0] = (95 - 12 * k);
-			posicionesTablero[indice][1] = (60 - 4 * j);
-			posicionesTablero[indice][2] = (-0.1 * j);
-			
+			posicionesTablero[k - 1][0] = (95 - 12 * k);
+			posicionesTablero[k - 1][1] = (60 - 4 * j);
 
-			cartas.push_back(Carta(palos[k - 1], 			// Palo
+			/*cartas.push_back(Carta(palos[k - 1], 			// Palo
 					       valores[k - 1], 			// Valor
-					       posicionesTablero[indice][0], 	// Posicion en X
-					       posicionesTablero[indice][1],	// Posicion en Y
-					       posicionesTablero[indice][2]));	// Posicion en Z
-			contador++;
-			indice++;
+					       posicionesTablero[k - 1][0], 	// Posicion en X
+					       posicionesTablero[k - 1][1]));	// Posicion en Y
+			dibujarCartas();
+			contador++;*/
+
+			if(k==1){
+				P1.push_back(Carta(palos[k - 1], 			// Palo
+					       valores[k - 1], 			// Valor
+					       posicionesTablero[k - 1][0], 	// Posicion en X
+					       posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP1();
+				contador++;
+				
+			}
+			if(k==2){
+				P2.push_back(Carta(palos[k - 1], 			// Palo
+				      		 valores[k - 1], 			// Valor
+				       		posicionesTablero[k - 1][0], 	// Posicion en X
+				       		posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP2();
+				contador++;	
+			}
+			if(k==3){
+				P3.push_back(Carta(palos[k - 1], 			// Palo
+				      		 valores[k - 1], 			// Valor
+				       		posicionesTablero[k - 1][0], 	// Posicion en X
+				       		posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP3();
+				contador++;	
+			}
+			if(k==4){
+				P4.push_back(Carta(palos[k - 1], 			// Palo
+				      		 valores[k - 1], 			// Valor
+				       		posicionesTablero[k - 1][0], 	// Posicion en X
+				       		posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP4();
+				contador++;			
+			}
+			if(k==5){
+				P5.push_back(Carta(palos[k - 1], 			// Palo
+				      		 valores[k - 1], 			// Valor
+				       		posicionesTablero[k - 1][0], 	// Posicion en X
+				       		posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP5();
+				contador++;			
+			}
+			if(k==6){
+				P6.push_back(Carta(palos[k - 1], 			// Palo
+				      		 valores[k - 1], 			// Valor
+				       		posicionesTablero[k - 1][0], 	// Posicion en X
+				       		posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP6();
+				contador++;			
+			}
+			if(k==7){
+				P7.push_back(Carta(palos[k - 1], 			// Palo
+				      		 valores[k - 1], 			// Valor
+				       		posicionesTablero[k - 1][0], 	// Posicion en X
+				       		posicionesTablero[k - 1][1]));	// Posicion en Y
+				dibujarCartasP7();
+				contador++;					
+			}
+
+
+
 
 			if(contador == lim){
 				lim--;
@@ -218,39 +342,9 @@ void dibujarTablero(){
 		}
 	}
 
-	dibujarCartas();
-	glPointSize(5.0);
-	glBegin(GL_POINTS);
-	glVertex3f(mazo[51].posX, mazo[51].posY, mazo[51].posZ);
-	glEnd();
-}
-
-void dibujarMazo(){
-	// Dibujar Mazo
-	for(int j = indice; j < NUM_PALOS * NUM_VAL; j++){
-		mazo[j] = Carta(palos[j], valores[j], posicionesTablero[6][0], 80, 0);
-		
-		mazo[j].dibujarCarta();
-		cout << j << " Mazo - Palo: " << palos[j] << " Valor: " << valores[j] 
-		     << " x: " << mazo[j].posX << " y: " << mazo[j].posY << endl;
-	}
-}
-
-// Drawing routine.
-void drawScene(void)
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.0, 0.0, 1.0);
-	glLoadIdentity();
-	
-	if(!inicio){
-		dibujarTablero();
-		inicio = true;
-	} else{
-		dibujarCartas();
-	}
-
-	dibujarMazo();
+	/*cartasIterator = cartas.begin();
+	cartasIterator -> dibujarCarta();
+	cout << cartasIterator -> posX << " " << cartasIterator -> posY << endl;*/
 
 	glFlush();
 }
@@ -271,8 +365,6 @@ void resize(int w, int h)
 	glLoadIdentity();
 	glOrtho(0, 100, 0, 100, -1, 1);
 
-	altura = h;
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
@@ -283,30 +375,8 @@ void Timer(int value) {
 	glutTimerFunc(refresh, Timer, 0);
 }
 
-void mouseControl(int button, int state, int x, int y){
-	//cout << contadorMazo << " objetivo: " << mazo[contadorMazo].posX << " " << mazo[contadorMazo].posY << endl;
-	//cout << x << " " << (x / 6) << " " << y << " " << altura / 5 - y / 5 << endl;
-
-	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		if(x / 6 >= mazo[contadorMazo].posX && x / 6 <= mazo[contadorMazo].posX + 8.5 
-		&& altura / 5 - y / 5 >= mazo[contadorMazo].posY && altura / 5 - y / 5 <= mazo[contadorMazo].posY + 13.5) {
-			cout << "Carta seleccionada: " << mazo[contadorMazo].getPalo() 
-				<< " " << mazo[contadorMazo].getValor() << endl;
-			
-			mazo[contadorMazo].voltear();
-			mazo[contadorMazo].posX += 10;
-			
-			mazo[contadorMazo].dibujarCarta();
-			contadorMazo--;
-			
-			if(contadorMazo < 28){
-				contadorMazo = 51;
-				drawScene();
-			}
-
-			glFlush();
-		}
-	}
+void mouseControl(int key, int state, int x, int y){
+	cout << x << " " << y << endl;
 }
 
 void keyInput(unsigned char key, int x, int y)
@@ -321,6 +391,141 @@ void keyInput(unsigned char key, int x, int y)
 	}
 }
 
+
+void mouseCallBack(int btn, int state, int x, int y)
+{
+	printf("Mouse call back: button=%d, state=%d, x=%d, y=%d\n", btn, state, x, y);
+	if(btn==GLUT_RIGHT_BUTTON && state==GLUT_DOWN){   
+		exit(0);
+	}
+	if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN){
+		
+		if(seleccionada == false){
+			if(x>=68 && x<=117){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP1=true;				
+			}
+			else if(x>=138 && x<=189){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP2=true;	
+			}
+			else if(x>=212 && x<=261){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP3=true;	
+			}
+			else if(x>=284 && x<=332){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP4=true;		
+			}
+			else if(x>=356 && x<=405){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP5=true;	
+			}
+			else if(x>=428 && x<=478){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP6=true;		
+			}
+			else if(x>=499 && x<=549){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP7=true;	
+			}
+
+			/*if(mueveP1==true){
+				if(sizeof(P1)>0){
+					P1[sizeof(P1)-1].posX=x;
+					P1[sizeof(P1)-1].posY=y;
+				}			
+			}
+			if(mueveP2==true){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP2=true;	
+			}
+			if(mueveP3==true){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP3=true;	
+			}
+			if(mueveP4==true){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP4=true;		
+			}
+			if(mueveP5==true){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP5=true;	
+			}
+			if(mueveP6==true){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP6=true;		
+			}
+			if(mueveP7==true){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP7=true;	
+			}*/		
+
+		}		
+	}
+	else if(btn==GLUT_LEFT_BUTTON && state==GLUT_UP){
+
+			if(x>=68 && x<=117){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP1=true;				
+			}
+			else if(x>=138 && x<=189){
+				P1[sizeof(P1)].posX=P2[sizeof(P1)].posX;
+				//P2.push_back(P1[sizeof(P1)-1])
+				//P1.
+			}
+			else if(x>=212 && x<=261){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP3=true;	
+			}
+			else if(x>=284 && x<=332){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP4=true;		
+			}
+			else if(x>=356 && x<=405){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP5=true;	
+			}
+			else if(x>=428 && x<=478){
+				cout<<"\ncarta\n";
+				seleccionada=true;
+				mueveP6=true;		
+			}
+			else if(x>=499 && x<=549){
+				cout<<"\ncarta\n";	
+				seleccionada=true;
+				mueveP7=true;	
+			}
+
+
+		seleccionada = false;
+		mueveP1 = false;
+		mueveP2 = false;
+		mueveP3 = false;
+		mueveP4 = false;
+		mueveP5 = false;
+		mueveP6 = false;
+		mueveP7 = false;
+	}
+	glutPostRedisplay();
+}
 
 void printInteraction(){
 	cout << "Triangle centers" << endl;
@@ -338,13 +543,14 @@ int main(int argc, char **argv)
 	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE); 
 
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA); 
-	glutInitWindowSize(ANCHO, ALTURA);
+	glutInitWindowSize(600, 600);
 	glutInitWindowPosition(0, 0); 
 	glutCreateWindow("Proyect");
 	glutDisplayFunc(drawScene); 
 	glutReshapeFunc(resize);  
-	glutMouseFunc(mouseControl);
-	//glutKeyboardFunc(keyInput);
+	//glutMouseFunc(mouseControl);
+	glutMouseFunc (mouseCallBack);
+	glutKeyboardFunc(keyInput);
 	//glutTimerFunc(0, Timer, 0);
 	glewInit(); 
 	//printInteraction();
